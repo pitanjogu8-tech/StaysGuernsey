@@ -17,7 +17,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://staysguernsey.gg'),
+  metadataBase: new URL('https://www.staysguernsey.gg'),
   title: {
     default: 'Stays Guernsey — Where to Stay on Guernsey, Channel Islands',
     template: '%s | Stays Guernsey',
