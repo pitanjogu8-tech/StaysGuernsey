@@ -51,6 +51,7 @@ export const metadata: Metadata = {
     images: ['/images/guernsey-hero.png'],
   },
   generator: 'v0.app',
+  verification: { google: 'KnB8u-a4oHtn3NSdgrrjvXgjm8YLVXSrAc4sy8MhWbE' },
   icons: {
     icon: [
       {
