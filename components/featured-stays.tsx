@@ -1,37 +1,31 @@
+import { areas } from "@/lib/areas"
 import { StayCard, type Stay } from "./stay-card"
 
-const stays: Stay[] = [
-  {
-    name: "Seafront hotels in St Peter Port",
-    area: "St Peter Port",
-    tag: "Hotels",
-    blurb:
-      "Grand harbour-view hotels a short stroll from the marina, cobbled high street, and the ferry terminal — ideal for a first visit.",
-    image: "/images/guernsey-townhouse.png",
-    href: "https://www.booking.com/searchresults.html?ss=St+Peter+Port%2C+Guernsey",
-    pageHref: "/stays/st-peter-port",
-  },
-  {
-    name: "Coastal cottages & self-catering",
-    area: "West coast",
-    tag: "Cottages",
-    blurb:
-      "Traditional granite cottages and self-catering homes near Cobo and Vazon — space to spread out with the beach on your doorstep.",
-    image: "/images/guernsey-cottage.png",
-    href: "https://www.airbnb.com/s/Guernsey/homes",
-    pageHref: "/stays/west-coast",
-  },
-  {
-    name: "Clifftop escapes on the south coast",
-    area: "St Martin & Forest",
-    tag: "B&Bs",
-    blurb:
-      "Peaceful guesthouses and B&Bs close to the famous south-coast cliff paths, hidden bays, and some of the island's best walking.",
-    image: "/images/guernsey-coast.png",
-    href: "https://www.booking.com/searchresults.html?ss=St+Martin%2C+Guernsey",
-    pageHref: "/stays/south-coast",
-  },
-]
+const stayImages: Record<string, string> = {
+  "st-peter-port": "/images/guernsey-townhouse.png",
+  "west-coast": "/images/guernsey-cottage.png",
+  "south-coast": "/images/guernsey-coast.png",
+  herm: "/images/herm-coast.png",
+  sark: "/images/sark-cliffs.png",
+}
+
+const stayLinks: Record<string, string> = {
+  "st-peter-port": "https://www.booking.com/searchresults.html?ss=St+Peter+Port%2C+Guernsey",
+  "west-coast": "https://www.airbnb.com/s/Guernsey/homes",
+  "south-coast": "https://www.booking.com/searchresults.html?ss=St+Martin%2C+Guernsey",
+  herm: "https://www.booking.com/searchresults.html?ss=Herm%2C+Guernsey",
+  sark: "https://www.booking.com/searchresults.html?ss=Sark%2C+Guernsey",
+}
+
+const stays: Stay[] = areas.map((area) => ({
+  name: area.title,
+  area: area.areaLabel,
+  tag: area.category,
+  blurb: area.description,
+  image: stayImages[area.slug],
+  href: stayLinks[area.slug],
+  pageHref: `/stays/${area.slug}`,
+}))
 
 export function FeaturedStays() {
   return (
