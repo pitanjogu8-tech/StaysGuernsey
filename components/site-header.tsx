@@ -2,6 +2,7 @@ import Link from "next/link"
 
 const navLinks = [
   { label: "Featured stays", href: "#featured" },
+  { label: "All Hotels", href: "/hotels" },
   { label: "By area", href: "#areas" },
   { label: "Good to know", href: "#faq" },
 ]
