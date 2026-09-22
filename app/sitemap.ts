@@ -3,7 +3,7 @@ import { areas } from "@/lib/areas"
 import { hotels } from "@/lib/hotels"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://staysguernsey.gg"
+  const base = "https://www.staysguernsey.gg"
   return [
     { url: base, lastModified: new Date() },
     { url: `${base}/hotels`, lastModified: new Date() },
