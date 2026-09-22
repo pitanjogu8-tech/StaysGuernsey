@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 export type Stay = {
   name: string
@@ -9,6 +10,7 @@ export type Stay = {
   /** A normal Booking.com / Airbnb / hotel URL. Stay22's Let Me Allez script
    *  auto-converts this into your affiliate link at runtime. */
   href: string
+  pageHref: string
 }
 
 export function StayCard({ stay }: { stay: Stay }) {
@@ -32,19 +34,19 @@ export function StayCard({ stay }: { stay: Stay }) {
           {stay.area}
         </p>
         <h3 className="mt-1 font-[family-name:var(--font-fraunces)] text-xl font-semibold text-[#0f3d3e]">
-          {stay.name}
+          <Link href={stay.pageHref} className="transition-colors hover:text-[#e07a5f]">
+            {stay.name}
+          </Link>
         </h3>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-[#0f3d3e]/70">
           {stay.blurb}
         </p>
-        <a
-          href={stay.href}
-          target="_blank"
-          rel="nofollow sponsored noopener"
+        <Link
+          href={stay.pageHref}
           className="mt-5 inline-flex items-center justify-center rounded-full bg-[#0f3d3e] px-5 py-2.5 text-sm font-semibold text-[#f6f1e7] transition-colors hover:bg-[#0f3d3e]/90"
         >
           Check prices &amp; availability
-        </a>
+        </Link>
       </div>
     </article>
   )

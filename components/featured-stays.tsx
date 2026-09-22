@@ -9,6 +9,7 @@ const stays: Stay[] = [
       "Grand harbour-view hotels a short stroll from the marina, cobbled high street, and the ferry terminal — ideal for a first visit.",
     image: "/images/guernsey-townhouse.png",
     href: "https://www.booking.com/searchresults.html?ss=St+Peter+Port%2C+Guernsey",
+    pageHref: "/stays/st-peter-port",
   },
   {
     name: "Coastal cottages & self-catering",
@@ -18,6 +19,7 @@ const stays: Stay[] = [
       "Traditional granite cottages and self-catering homes near Cobo and Vazon — space to spread out with the beach on your doorstep.",
     image: "/images/guernsey-cottage.png",
     href: "https://www.airbnb.com/s/Guernsey/homes",
+    pageHref: "/stays/west-coast",
   },
   {
     name: "Clifftop escapes on the south coast",
@@ -27,6 +29,7 @@ const stays: Stay[] = [
       "Peaceful guesthouses and B&Bs close to the famous south-coast cliff paths, hidden bays, and some of the island's best walking.",
     image: "/images/guernsey-coast.png",
     href: "https://www.booking.com/searchresults.html?ss=St+Martin%2C+Guernsey",
+    pageHref: "/stays/south-coast",
   },
 ]
 
