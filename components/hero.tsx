@@ -14,7 +14,7 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#0f3d3e] via-[#0f3d3e]/50 to-[#0f3d3e]/20" />
       </div>
 
-      <div className="mx-auto flex min-h-[80vh] max-w-6xl flex-col justify-end px-5 pb-16 pt-28">
+      <div className="mx-auto flex min-h-[80vh] max-w-6xl flex-col justify-end px-5 pb-32 pt-28">
         <p className="mb-4 text-sm font-medium uppercase tracking-[0.25em] text-[#f6f1e7]/80">
           The Channel Islands
         </p>
@@ -28,10 +28,10 @@ export function Hero() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a
-            href="#featured"
+            href="#search"
             className="rounded-full bg-[#e07a5f] px-7 py-3 text-base font-semibold text-white transition-transform hover:-translate-y-0.5"
           >
-            Browse featured stays
+            Search hotels
           </a>
           <a
             href="#areas"

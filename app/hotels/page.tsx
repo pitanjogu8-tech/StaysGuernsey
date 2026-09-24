@@ -1,5 +1,7 @@
-import Link from "next/link"
-import { hotels } from "@/lib/hotels"
+import { SiteHeader } from "@/components/site-header"
+import { HotelSearch } from "@/components/hotel-search"
+import { WhyBook } from "@/components/why-book"
+import { FaqFooter } from "@/components/faq-footer"
 
 export const metadata = {
   title: "All Hotels in Guernsey",
@@ -8,22 +10,20 @@ export const metadata = {
 
 export default function HotelsIndexPage() {
   return (
-    <main className="mx-auto max-w-4xl px-5 py-16">
-      <h1 className="text-4xl font-serif">All hotels in Guernsey</h1>
-      <p className="mt-4 text-lg text-slate-600">
-        Every hotel we track across Guernsey, Herm, and Sark — tap any one to compare live prices.
-      </p>
-      <ul className="mt-10 divide-y divide-slate-200">
-        {hotels.map((hotel) => (
-          <li key={hotel.slug} className="py-5">
-            <Link href={`/hotels/${hotel.slug}`} className="text-xl font-serif hover:underline">
-              {hotel.name}
-            </Link>
-            <p className="text-sm text-slate-500">{hotel.area} · {hotel.type}</p>
-            <p className="mt-1 text-slate-600">{hotel.description}</p>
-          </li>
-        ))}
-      </ul>
+    <main className="min-h-screen bg-[#f6f1e7] font-[family-name:var(--font-inter)]">
+      <SiteHeader />
+      <div className="mx-auto max-w-6xl px-5 pt-14">
+        <h1 className="font-[family-name:var(--font-fraunces)] text-4xl font-semibold text-[#0f3d3e] sm:text-5xl">
+          All hotels in Guernsey
+        </h1>
+        <p className="mt-4 max-w-2xl text-lg text-[#0f3d3e]/70">
+          Every hotel we track across Guernsey, Herm, and Sark — filter by island, parish or amenity, add your dates,
+          and tap any one to compare live prices.
+        </p>
+      </div>
+      <HotelSearch />
+      <WhyBook />
+      <FaqFooter />
     </main>
   )
 }

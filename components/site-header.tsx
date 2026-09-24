@@ -1,10 +1,10 @@
 import Link from "next/link"
 
 const navLinks = [
-  { label: "Featured stays", href: "#featured" },
-  { label: "All Hotels", href: "/hotels" },
-  { label: "By area", href: "#areas" },
-  { label: "Good to know", href: "#faq" },
+  { label: "All hotels", href: "/hotels" },
+  { label: "Featured stays", href: "/#featured" },
+  { label: "By area", href: "/#areas" },
+  { label: "Good to know", href: "/#faq" },
 ]
 
 export function SiteHeader() {
@@ -33,7 +33,7 @@ export function SiteHeader() {
         </nav>
 
         <a
-          href="#featured"
+          href="/#search"
           className="rounded-full bg-[#0f3d3e] px-5 py-2 text-sm font-semibold text-[#f6f1e7] transition-colors hover:bg-[#0f3d3e]/90"
         >
           Find a stay
