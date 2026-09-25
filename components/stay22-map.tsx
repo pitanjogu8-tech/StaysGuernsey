@@ -13,7 +13,8 @@ export function Stay22Map({
   checkout?: string
 }) {
   const aid = "6aa417b92c12fc22b51ac118"
-  let src = `https://www.stay22.com/embed/gm?aid=${aid}&address=${encodeURIComponent(address)}&viewmode=hybrid`
+  // maincolor = our brand teal (hex without #), so Stay22's buttons match the site.
+  let src = `https://www.stay22.com/embed/gm?aid=${aid}&address=${encodeURIComponent(address)}&viewmode=hybrid&maincolor=0f3d3e`
   if (checkin && checkout) {
     src += `&checkin=${encodeURIComponent(checkin)}&checkout=${encodeURIComponent(checkout)}`
   }

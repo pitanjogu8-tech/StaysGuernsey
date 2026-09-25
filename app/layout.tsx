@@ -2,6 +2,8 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Fraunces, Inter } from 'next/font/google'
 import { LetMeAllez } from '@/components/let-me-allez'
+import { SiteHeader } from '@/components/site-header'
+import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
 
 const fraunces = Fraunces({
@@ -41,14 +43,14 @@ export const metadata: Metadata = {
     siteName: 'Stays Guernsey',
     locale: 'en_GB',
     type: 'website',
-    images: ['/images/guernsey-hero.png'],
+    images: ['/images/og-guernsey.jpg'],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Stays Guernsey — Where to Stay on Guernsey',
     description:
       'A local guide to the best places to stay on Guernsey, from seafront hotels to countryside cottages.',
-    images: ['/images/guernsey-hero.png'],
+    images: ['/images/og-guernsey.jpg'],
   },
   generator: 'v0.app',
   verification: { google: 'KnB8u-a4oHtn3NSdgrrjvXgjm8YLVXSrAc4sy8MhWbE' },
@@ -83,8 +85,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-GB" className={`${fraunces.variable} ${inter.variable}`}>
-      <body className="antialiased">
-        {children}
+      <body className="bg-[#f6f1e7] font-[family-name:var(--font-inter)] text-[#0f3d3e] antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-[#0f3d3e] focus:px-4 focus:py-2 focus:text-sm focus:text-[#f6f1e7]"
+        >
+          Skip to content
+        </a>
+        <SiteHeader />
+        <main id="main" className="min-h-[60vh]">
+          {children}
+        </main>
+        <SiteFooter />
         <LetMeAllez />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

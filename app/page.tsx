@@ -1,21 +1,18 @@
-import { SiteHeader } from "@/components/site-header"
 import { Hero } from "@/components/hero"
 import { HotelSearch } from "@/components/hotel-search"
-import { WhyBook } from "@/components/why-book"
-import { FeaturedStays } from "@/components/featured-stays"
-import { BrowseByArea } from "@/components/browse-by-area"
-import { FaqFooter } from "@/components/faq-footer"
+import { TrustStrip } from "@/components/why-book"
+import { ExploreAreas } from "@/components/explore-areas"
+import { Faq } from "@/components/faq"
+
+export const metadata = { alternates: { canonical: "/" } }
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[#f6f1e7] font-[family-name:var(--font-inter)]">
-      <SiteHeader />
+    <>
       <Hero />
-      <HotelSearch overlapHero />
-      <WhyBook />
-      <FeaturedStays />
-      <BrowseByArea />
-      <FaqFooter />
-    </main>
+      <HotelSearch overlapHero limit={6} afterForm={<TrustStrip />} />
+      <ExploreAreas />
+      <Faq />
+    </>
   )
 }

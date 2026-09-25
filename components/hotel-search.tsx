@@ -1,8 +1,9 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { Building2, CalendarDays, MapPin, Search, Tag } from "lucide-react"
-import { hotelAmenities, hotelAreas, hotels, type Island } from "@/lib/hotels"
+import Link from "next/link"
+import { ArrowRight, Building2, CalendarDays, MapPin, Search, Tag } from "lucide-react"
+import { hotelAmenities, hotelAreas, hotels, type Hotel, type Island } from "@/lib/hotels"
 import { HotelCard } from "@/components/hotel-card"
 import { Stay22Map } from "@/components/stay22-map"
 
@@ -11,9 +12,24 @@ const fieldClasses =
 
 const islands: Island[] = ["Guernsey", "Herm", "Sark"]
 
-function Field({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
+/** Order for the short homepage preview: hotels with real photos and higher grades first. */
+function previewRank(h: Hotel) {
+  return (h.photo ? 10 : 0) + (h.stars ?? 0)
+}
+
+function Field({
+  icon,
+  label,
+  className = "",
+  children,
+}: {
+  icon: React.ReactNode
+  label: string
+  className?: string
+  children: React.ReactNode
+}) {
   return (
-    <label className="flex flex-col gap-1.5">
+    <label className={`flex min-w-0 flex-col gap-1.5 ${className}`}>
       <span className="flex items-center gap-1.5 text-xs font-medium text-[#0f3d3e]/60">
         {icon}
         {label}
@@ -29,7 +45,17 @@ function todayISO() {
   return d.toISOString().slice(0, 10)
 }
 
-export function HotelSearch({ overlapHero = false }: { overlapHero?: boolean }) {
+export function HotelSearch({
+  overlapHero = false,
+  limit,
+  afterForm,
+}: {
+  overlapHero?: boolean
+  /** Show only this many hotels (plus a "see all" link) until the visitor filters. */
+  limit?: number
+  /** Rendered between the search form and the results, e.g. a trust strip. */
+  afterForm?: React.ReactNode
+}) {
   const [island, setIsland] = useState<Island | "">("")
   const [area, setArea] = useState("")
   const [amenity, setAmenity] = useState("")
@@ -43,6 +69,7 @@ export function HotelSearch({ overlapHero = false }: { overlapHero?: boolean }) 
   const areaEnabled = island === "" || island === "Guernsey"
   const datesValid = Boolean(checkin && checkout && checkout > checkin)
   const dateError = checkin && checkout && !datesValid
+  const filtering = Boolean(island || area || amenity)
 
   const results = useMemo(
     () =>
@@ -55,14 +82,11 @@ export function HotelSearch({ overlapHero = false }: { overlapHero?: boolean }) 
     [island, area, amenity, areaEnabled],
   )
 
-  const mapAddress =
-    island === "Herm" || island === "Sark"
-      ? `${island}, Guernsey`
-      : area
-        ? `${area}, Guernsey`
-        : "Guernsey"
+  const preview = Boolean(limit && !filtering)
+  const shown = preview ? [...results].sort((a, b) => previewRank(b) - previewRank(a)).slice(0, limit) : results
 
-  const hasFilters = Boolean(island || area || amenity || checkin || checkout)
+  const mapAddress =
+    island === "Herm" || island === "Sark" ? `${island}, Guernsey` : area ? `${area}, Guernsey` : "Guernsey"
 
   function reset() {
     setIsland("")
@@ -79,14 +103,17 @@ export function HotelSearch({ overlapHero = false }: { overlapHero?: boolean }) 
 
   return (
     <>
-      <div id="search" className={`relative z-10 mx-auto max-w-6xl scroll-mt-24 px-5 ${overlapHero ? "-mt-20" : "pt-12"}`}>
+      <div
+        id="search"
+        className={`relative z-10 mx-auto max-w-6xl scroll-mt-24 px-5 ${overlapHero ? "-mt-24 sm:-mt-20" : "pt-10"}`}
+      >
         <form
           onSubmit={onSubmit}
           role="search"
           aria-label="Search hotels"
-          className="rounded-2xl border border-[#0f3d3e]/10 bg-white/95 p-4 shadow-xl backdrop-blur sm:p-5"
+          className="rounded-2xl border border-[#0f3d3e]/10 bg-white p-4 shadow-xl sm:p-5"
         >
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
             <Field icon={<MapPin className="size-3.5" aria-hidden="true" />} label="Island">
               <select
                 className={fieldClasses}
@@ -121,7 +148,11 @@ export function HotelSearch({ overlapHero = false }: { overlapHero?: boolean }) 
               </select>
             </Field>
 
-            <Field icon={<Tag className="size-3.5" aria-hidden="true" />} label="Must have">
+            <Field
+              icon={<Tag className="size-3.5" aria-hidden="true" />}
+              label="Must have"
+              className="col-span-2 lg:col-span-1"
+            >
               <select className={fieldClasses} value={amenity} onChange={(e) => setAmenity(e.target.value)}>
                 <option value="">Anything</option>
                 {hotelAmenities.map((a) => (
@@ -169,21 +200,23 @@ export function HotelSearch({ overlapHero = false }: { overlapHero?: boolean }) 
         </form>
       </div>
 
-      <section id="hotels" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-16">
+      {afterForm}
+
+      <section id="hotels" className="mx-auto max-w-6xl scroll-mt-24 px-5 pb-16 pt-14">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-sm font-medium uppercase tracking-[0.2em] text-[#e07a5f]">Hotels</p>
             <h2 className="mt-3 font-[family-name:var(--font-fraunces)] text-3xl font-semibold text-[#0f3d3e] sm:text-4xl">
-              Hotels across the islands
+              {preview ? "Top hotels across the islands" : "Hotels across the islands"}
             </h2>
             <p className="mt-2 text-[#0f3d3e]/70" aria-live="polite">
-              {results.length === hotels.length
-                ? `${hotels.length} hotels on Guernsey, Herm and Sark`
-                : `${results.length} of ${hotels.length} hotels match your search`}
+              {filtering
+                ? `${results.length} of ${hotels.length} hotels match your search`
+                : `${hotels.length} hotels on Guernsey, Herm and Sark`}
               {datesValid ? " — prices shown for your dates" : ""}
             </p>
           </div>
-          {hasFilters ? (
+          {filtering || checkin || checkout ? (
             <button
               type="button"
               onClick={reset}
@@ -191,17 +224,32 @@ export function HotelSearch({ overlapHero = false }: { overlapHero?: boolean }) 
             >
               Clear filters
             </button>
+          ) : preview ? (
+            <Link
+              href="/hotels"
+              className="hidden items-center gap-1.5 text-sm font-semibold text-[#0f3d3e] hover:text-[#e07a5f] sm:inline-flex"
+            >
+              See all {hotels.length} hotels <ArrowRight className="size-4" aria-hidden="true" />
+            </Link>
           ) : null}
         </div>
 
-        {results.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map((hotel) => (
+        {shown.length > 0 ? (
+          <div
+            className={
+              preview
+                ? // Swipeable row on phones, grid from tablet up.
+                  "no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
+                : "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            }
+          >
+            {shown.map((hotel) => (
               <HotelCard
                 key={hotel.slug}
                 hotel={hotel}
                 checkin={datesValid ? checkin : undefined}
                 checkout={datesValid ? checkout : undefined}
+                className={preview ? "w-[80%] shrink-0 snap-start sm:w-auto" : ""}
               />
             ))}
           </div>
@@ -216,12 +264,24 @@ export function HotelSearch({ overlapHero = false }: { overlapHero?: boolean }) 
           </div>
         )}
 
-        <div className="mt-14">
+        {preview ? (
+          <div className="mt-8 flex justify-center">
+            <Link
+              href="/hotels"
+              className="inline-flex items-center gap-2 rounded-full border border-[#0f3d3e]/25 bg-white px-6 py-3 text-sm font-semibold text-[#0f3d3e] transition-colors hover:border-[#0f3d3e] hover:bg-[#0f3d3e] hover:text-[#f6f1e7]"
+            >
+              See all {hotels.length} hotels <ArrowRight className="size-4" aria-hidden="true" />
+            </Link>
+          </div>
+        ) : null}
+
+        <div className="mt-16">
           <h3 className="font-[family-name:var(--font-fraunces)] text-2xl font-semibold text-[#0f3d3e]">
             See everything on the map
           </h3>
           <p className="mt-2 max-w-2xl text-[#0f3d3e]/70">
-            Guesthouses, cottages and apartments too — compare live prices from the big booking sites in one place.
+            Guesthouses, cottages and apartments too — compare live prices from the big booking sites in one place
+            {datesValid ? " for your dates" : ". Add dates above to see exact prices"}.
           </p>
           <div className="mt-6">
             <Stay22Map

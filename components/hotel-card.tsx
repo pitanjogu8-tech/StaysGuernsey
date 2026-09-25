@@ -1,35 +1,32 @@
-import Image from "next/image"
 import Link from "next/link"
 import { MapPin, Star } from "lucide-react"
-import { hotelImage, type Hotel } from "@/lib/hotels"
+import { hotelLocation, type Hotel } from "@/lib/hotels"
+import { HotelPhoto } from "@/components/hotel-photo"
 
 export function HotelCard({
   hotel,
   checkin,
   checkout,
+  className = "",
 }: {
   hotel: Hotel
   checkin?: string
   checkout?: string
+  className?: string
 }) {
   const query = checkin && checkout ? `?checkin=${checkin}&checkout=${checkout}` : ""
   const href = `/hotels/${hotel.slug}${query}`
-  const location = hotel.island === "Guernsey" ? hotel.area : `${hotel.island} island`
   const label = hotel.stars ? `${hotel.stars}-star ${hotel.type.toLowerCase()}` : hotel.type
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-[#0f3d3e]/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <article
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-[#0f3d3e]/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl ${className}`}
+    >
       <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
-          src={hotelImage(hotel)}
-          alt={`${location}, ${hotel.island} — the area around ${hotel.name}`}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
+        <HotelPhoto hotel={hotel} className="transition-transform duration-500 group-hover:scale-105" />
         <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-[#0f3d3e]/90 px-2.5 py-1 text-xs font-medium text-[#f6f1e7] backdrop-blur">
           <MapPin className="size-3" aria-hidden="true" />
-          {location}
+          {hotelLocation(hotel)}
         </span>
         {hotel.stars ? (
           <span
@@ -40,12 +37,18 @@ export function HotelCard({
             {hotel.stars}
           </span>
         ) : null}
+        {hotel.photo ? (
+          <span className="absolute bottom-2 right-2 rounded bg-black/45 px-1.5 py-0.5 text-[10px] text-white/85">
+            © {hotel.photo.author} · {hotel.photo.license}
+          </span>
+        ) : null}
       </div>
 
       <div className="flex flex-1 flex-col p-5">
         <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#e07a5f]">{label}</p>
         <h3 className="mt-1 font-[family-name:var(--font-fraunces)] text-lg font-semibold leading-snug text-[#0f3d3e]">
-          <Link href={href} className="transition-colors hover:text-[#e07a5f]">
+          {/* The stretched link makes the whole card clickable. */}
+          <Link href={href} className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">
             {hotel.name}
           </Link>
         </h3>
@@ -53,10 +56,7 @@ export function HotelCard({
 
         <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="Amenities">
           {hotel.amenities.map((amenity) => (
-            <li
-              key={amenity}
-              className="rounded-md bg-[#f6f1e7] px-2 py-1 text-xs font-medium text-[#0f3d3e]/80"
-            >
+            <li key={amenity} className="rounded-md bg-[#f6f1e7] px-2 py-1 text-xs font-medium text-[#0f3d3e]/80">
               {amenity}
             </li>
           ))}
@@ -74,12 +74,12 @@ export function HotelCard({
               </p>
             )}
           </div>
-          <Link
-            href={href}
-            className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-[#0f3d3e] px-4 py-2.5 text-sm font-semibold text-[#f6f1e7] transition-colors hover:bg-[#0f3d3e]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f3d3e]/40"
+          <span
+            aria-hidden="true"
+            className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-[#0f3d3e] px-4 py-2.5 text-sm font-semibold text-[#f6f1e7] transition-colors group-hover:bg-[#0f3d3e]/90"
           >
             Check availability &amp; prices
-          </Link>
+          </span>
         </div>
       </div>
     </article>
