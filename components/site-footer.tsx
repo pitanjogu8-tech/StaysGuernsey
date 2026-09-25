@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { areas } from "@/lib/areas"
+import { Logo } from "@/components/logo"
 
 export function SiteFooter() {
   return (
@@ -7,7 +8,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-5">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div className="max-w-sm">
-            <p className="font-[family-name:var(--font-fraunces)] text-xl font-semibold">Stays Guernsey</p>
+            <Logo reverse />
             <p className="mt-3 text-sm leading-relaxed text-[#f6f1e7]/65">
               An independent guide to places to stay on Guernsey, Herm and Sark — helping visitors find the right
               base and compare live prices.

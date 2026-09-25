@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { MobileMenu } from "@/components/mobile-menu"
+import { Logo } from "@/components/logo"
 
 export const navLinks = [
   { label: "All hotels", href: "/hotels" },
@@ -12,12 +13,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-[#0f3d3e]/10 bg-[#f6f1e7]/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
-        <Link href="/" className="flex items-baseline gap-2">
-          <span className="font-[family-name:var(--font-fraunces)] text-xl font-semibold tracking-tight text-[#0f3d3e]">
-            Stays Guernsey
-          </span>
-          <span className="hidden text-xs uppercase tracking-[0.2em] text-[#0f3d3e]/50 sm:inline">.gg</span>
-        </Link>
+        <Logo />
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
           {navLinks.map((link) => (
@@ -34,7 +30,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <Link
             href="/#search"
-            className="rounded-full bg-[#0f3d3e] px-5 py-2 text-sm font-semibold text-[#f6f1e7] transition-colors hover:bg-[#0f3d3e]/90"
+            className="hidden rounded-full bg-[#0f3d3e] px-5 py-2 sm:inline-flex text-sm font-semibold text-[#f6f1e7] transition-colors hover:bg-[#0f3d3e]/90"
           >
             Find a stay
           </Link>

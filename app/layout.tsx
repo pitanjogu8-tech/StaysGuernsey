@@ -43,31 +43,21 @@ export const metadata: Metadata = {
     siteName: 'Stays Guernsey',
     locale: 'en_GB',
     type: 'website',
-    images: ['/images/og-guernsey.jpg'],
+    images: ['/brand/og-stays-guernsey.jpg'],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Stays Guernsey — Where to Stay on Guernsey',
     description:
       'A local guide to the best places to stay on Guernsey, from seafront hotels to countryside cottages.',
-    images: ['/images/og-guernsey.jpg'],
+    images: ['/brand/og-stays-guernsey.jpg'],
   },
   generator: 'v0.app',
   verification: { google: 'KnB8u-a4oHtn3NSdgrrjvXgjm8YLVXSrAc4sy8MhWbE' },
   icons: {
     icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
     ],
     apple: '/apple-icon.png',
   },
@@ -92,6 +82,26 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                '@context': 'https://schema.org',
+                '@type': 'Organization',
+                name: 'Stays Guernsey',
+                url: 'https://www.staysguernsey.gg',
+                logo: 'https://www.staysguernsey.gg/brand/stays-guernsey-logo.png',
+              },
+              {
+                '@context': 'https://schema.org',
+                '@type': 'WebSite',
+                name: 'Stays Guernsey',
+                url: 'https://www.staysguernsey.gg',
+              },
+            ]),
+          }}
+        />
         <SiteHeader />
         <main id="main" className="min-h-[60vh]">
           {children}

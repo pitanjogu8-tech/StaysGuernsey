@@ -57,6 +57,13 @@ export function MobileMenu({ links }: { links: { label: string; href: string }[]
               </li>
             ))}
           </ul>
+          <Link
+            href="/#search"
+            onClick={() => setOpen(false)}
+            className="mt-4 flex w-full items-center justify-center rounded-full bg-[#e07a5f] px-5 py-3 text-sm font-semibold text-white"
+          >
+            Find a stay
+          </Link>
         </nav>
       ) : null}
     </div>
